@@ -8,4 +8,9 @@ class Makersbnb < Sinatra::Base
   get "/" do
     'Hello'
   end
-end 
+
+  get '/sessions/new' do
+    "Type in your name here" 
+  end
+
+end
