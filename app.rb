@@ -34,4 +34,8 @@ class Makersbnb < Sinatra::Base
     erb(:'spaces/details')
   end
 
+  get '/successful' do
+    erb(:'bookings/success')
+  end
+
 end
