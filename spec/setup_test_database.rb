@@ -7,9 +7,8 @@ end
 
 def add_row_to_database(name, description, price, owner)
   connection = PG.connect(dbname: 'makersbnb_test')
-  connection.exec("INSERT INTO properties (name, description, price, owner) values ('#{name}', '#{description}', '#{price}', '#{owner}');")
+  connection.exec("INSERT INTO properties (name, description, price, owner) values ('#{name}', '#{description}', '#{price}', '#{owner}') RETURNING * ;")
 end
-
 
 def add_rows_to_database
   add_row_to_database('Small Cottage', 'A small cottage in the countryside', 35, 'Aadam')
