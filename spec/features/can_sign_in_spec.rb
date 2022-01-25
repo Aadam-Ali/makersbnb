@@ -5,6 +5,5 @@ feature 'sign in page' do
     click_button('Signup')
     expect(page).to have_current_path('/spaces')
     expect(page).to have_content('Hi Stacy')
-
   end
 end

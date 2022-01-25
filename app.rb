@@ -15,7 +15,7 @@ class Makersbnb < Sinatra::Base
   get '/spaces' do
     @username = session[:username]
     # @spaces = Spaces.all 
-    @spaces = [{name:'House', description: 'Lovely House'}, {name:'Cottage', description: 'Lovely Cottage'}]
+    @spaces = [{name:'House', description: 'Lovely House', id: '1'}, {name: 'Cottage', description: 'Lovely Cottage', id: '2'}]
     erb :'spaces/spaces'
   end
 
@@ -26,6 +26,12 @@ class Makersbnb < Sinatra::Base
   post '/sessions' do
     session[:username] = params[:username]
     redirect '/spaces'
+  end
+
+  get '/spaces/:id' do
+    # space = Space.find_by_id(params[:id])
+    @space = [ { name:'House', description: 'Lovely House', owner: 'Lovely Owner', price: '80' } ]
+    erb(:'spaces/details')
   end
 
 end
