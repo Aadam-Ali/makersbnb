@@ -13,7 +13,10 @@ class Makersbnb < Sinatra::Base
   end
 
   get '/spaces' do
-    "Hi #{session[:username]}"
+    @username = session[:username]
+    # @spaces = Spaces.all 
+    @spaces = [{name:'House', description: 'Lovely House'}, {name:'Cottage', description: 'Lovely Cottage'}]
+    erb :'spaces/spaces'
   end
 
   get '/sessions/new' do
