@@ -11,7 +11,7 @@ class Users
 
   def self.create(email, password, name)
     result = DatabaseConnection.query(
-      "INSERT INTO users (email, password, name) VALUES($1, $2, $3) RETURNING *;",
+      'INSERT INTO users (email, password, name) VALUES($1, $2, $3) RETURNING *;',
       [email, password, name]
       )
     wrap_user(result)
@@ -19,7 +19,7 @@ class Users
 
   def self.find_by_email(email)
     result = DatabaseConnection.query(
-      "SELECT * FROM users WHERE email = $1;",
+      'SELECT * FROM users WHERE email = $1;',
       [email]
       )
     return nil if result.ntuples.zero?
