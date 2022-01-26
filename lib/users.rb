@@ -10,16 +10,24 @@ class Users
   end
 
   def self.create(email, password, name)
-    user_details = [email, password, name]
-    result = DatabaseConnection.query("INSERT INTO users (email, password, name) 
-                                      VALUES($1, $2, $3) RETURNING *;" , user_details)
-    Users.new(result[0]['id'], result[0]['email'], result[0]['password'], result[0]['name'])
+    result = DatabaseConnection.query(
+      "INSERT INTO users (email, password, name) VALUES($1, $2, $3) RETURNING *;",
+      [email, password, name]
+      )
+    wrap_user(result)
   end
 
   def self.find_by_email(email)
-    result = DatabaseConnection.query("SELECT * FROM users WHERE email = $1;", [email])
+    result = DatabaseConnection.query(
+      "SELECT * FROM users WHERE email = $1;",
+      [email]
+      )
     return nil if result.ntuples.zero?
 
+    wrap_user(result)
+  end
+
+  private_class_method def self.wrap_user(result)
     Users.new(result[0]['id'], result[0]['email'], result[0]['password'], result[0]['name'])
   end
 end
