@@ -15,7 +15,8 @@ describe Properties do
 
   describe '.create' do
     it 'creates a property' do
-      property = Properties.create('Extra Large Cottage', 'A extra large cottage in the countryside', 150, 'James')
+      owner = DatabaseConnection.query("INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *;", ['test@test.com', 'password', 'Aadam'])
+      property = Properties.create('Extra Large Cottage', 'A extra large cottage in the countryside', 150, owner.first['id'], '2022-02-01', '2022-02-28')
       
       result = Properties.all
       
@@ -23,14 +24,17 @@ describe Properties do
       expect(result[0].name).to eq property.name
       expect(result[0].description).to eq property.description
       expect(result[0].price).to eq property.price
-      expect(result[0].owner).to eq property.owner
+      expect(result[0].owner_id).to eq owner.first['id']
+      expect(result[0].available_from).to eq property.available_from
+      expect(result[0].available_to).to eq property.available_to
     end
   end
 
   describe '.find_by_id' do
     it 'finds a property by id' do
       add_rows_to_database
-      property = Properties.create('Extra Large Cottage', 'A extra large cottage in the countryside', 150, 'James')
+      owner = DatabaseConnection.query("INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *;", ['test@test.com', 'password', 'Aadam'])
+      property = Properties.create('Extra Large Cottage', 'A extra large cottage in the countryside', 150, owner.first['id'], '2022-02-01', '2022-02-28')
 
       result = Properties.find_by_id(property.id)
       
@@ -38,7 +42,9 @@ describe Properties do
       expect(result.name).to eq property.name
       expect(result.description).to eq property.description
       expect(result.price).to eq property.price
-      expect(result.owner).to eq property.owner
+      expect(result.owner_id).to eq property.owner_id
+      expect(result.available_from).to eq property.available_from
+      expect(result.available_to).to eq property.available_to
     end
   end
 end
