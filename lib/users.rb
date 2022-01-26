@@ -18,6 +18,8 @@ class Users
 
   def self.find_by_email(email)
     result = DatabaseConnection.query("SELECT * FROM users WHERE email = $1;", [email])
+    return nil if result.ntuples.zero?
+
     Users.new(result[0]['id'], result[0]['email'], result[0]['password'], result[0]['name'])
   end
 end
