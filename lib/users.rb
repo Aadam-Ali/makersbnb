@@ -1,6 +1,9 @@
-class Users
+require 'bcrypt'
 
-  attr_reader :id, :email, :password, :name
+class Users
+  include BCrypt
+
+  attr_reader :id, :email, :name
 
   def initialize(id, email, password, name)
     @id = id
@@ -12,7 +15,7 @@ class Users
   def self.create(email, password, name)
     result = DatabaseConnection.query(
       'INSERT INTO users (email, password, name) VALUES($1, $2, $3) RETURNING *;',
-      [email, password, name]
+      [email, Password.create(password), name]
     )
     wrap_user(result)
   end
