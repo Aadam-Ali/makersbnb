@@ -15,7 +15,8 @@ class Makersbnb < Sinatra::Base
   end
 
   get '/spaces' do
-    @username = session[:username]
+    @user
+    # @user replacing @username = session[:username] with @user.name
     @spaces = Properties.all 
     erb :'spaces/spaces'
   end
@@ -25,13 +26,15 @@ class Makersbnb < Sinatra::Base
   end
 
   post '/sessions' do
-    session[:username] = params[:username]
+    @user = Users.create(params[:email], params[:password], params[:username])
+    # session[:username] = params[:username]
     redirect '/spaces'
   end
 
   get '/spaces/:id' do
     @space = Properties.find_by_id(params[:id])
-    @username = session[:username]
+    @user
+    # @user replacing @username = session[:username] with @user.name
     erb(:'spaces/details')
   end
 
