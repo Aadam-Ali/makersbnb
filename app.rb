@@ -28,7 +28,10 @@ class Makersbnb < Sinatra::Base
     session[:username] = params[:username]
     redirect '/spaces'
   end
-
+  get '/spaces/new' do
+    erb(:'spaces/new')
+  end
+  
   get '/spaces/:id' do
     @space = Properties.find_by_id(params[:id])
     @username = session[:username]
@@ -43,5 +46,12 @@ class Makersbnb < Sinatra::Base
   get '/successful' do
     erb(:'bookings/success')
   end
+
+
+  post '/spaces/new' do
+    Properties.create(params[:name], params[:description], params[:price], session[:username] )
+    redirect '/spaces'
+  end
+
 
 end

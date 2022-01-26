@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,19 +12,15 @@
   </head>
   <body>
 
-       
-      Hi <%= @username %>
-      <br> 
-      <% @spaces.each do |space| %>
-        <a href="/spaces/<%= space.id%>" > <%=space.name%> </a>
-
-        <%= space.description %>
-        <br>
-      <% end %>
-
-
-          <form action="spaces/new" method="get"> 
+    <form action="/spaces/new" method="post"> 
       <div class="mb-3">
+        <label for="property_new" class="form-label">New Listing</label>
+          <input type="text" class="form-control" id="name" name="name">
+        <label for="property_new" class="form-label">Description</label>  
+          <input type="text" class="form-control" id="description" name="description">
+        <label for="property_new" class="form-label"> Price</label>
+          <input type="text" class="form-control" id="price" name="price">
+      </div>
       <button type="submit" class="btn btn-primary">Create new listing</button>
     </form>
 
