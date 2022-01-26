@@ -19,8 +19,8 @@ class Users
 
   def self.find_by_email(email)
     result = DatabaseConnection.query(
-      'SELECT * FROM users WHERE email = $1;',
-      [email]
+      'SELECT * FROM users WHERE LOWER(email) = $1;',
+      [email.downcase]
       )
     return nil if result.ntuples.zero?
 
