@@ -1,6 +1,6 @@
-feature 'User can access the site' do
-  scenario 'user opens the site' do
+feature 'Open Site' do
+  scenario 'User opens the site and redirects to register' do
     visit '/'
-    expect(page).to have_content 'Hello'
+    expect(page).to have_current_path('/register')
   end
 end
