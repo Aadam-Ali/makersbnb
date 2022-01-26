@@ -4,13 +4,11 @@ RSpec.describe Users do
 
   describe '.create' do
     it 'adds a new user to the database and returns an users instance' do
-      old_user = DatabaseConnection.query('INSERT INTO users (email, password, name) 
-      VALUES($1, $2, $3) RETURNING *;', ['freddy@example.org', 'freddy123', 'Freddy'])
-
       new_user = Users.create('jason@example.org', 'jason123', 'Jason')
+      persisted_data = DatabaseConnection.query('SELECT * FROM users WHERE email = $1', ['jason@example.org'])
 
       expect(new_user).to be_a(Users)
-      expect(new_user.id.to_i - old_user[0]['id'].to_i).to be 1
+      expect(new_user.id).to eq(persisted_data[0]['id'])
       expect(new_user.name).to eq('Jason')
       expect(new_user.password).to eq('jason123')
       expect(new_user.email).to eq('jason@example.org')
