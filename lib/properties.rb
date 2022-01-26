@@ -1,7 +1,3 @@
-require_relative 'database_connection'
-
-DatabaseConnection.setup
-
 class Properties
   attr_reader :id, :name, :description, :price, :owner
 

@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'sinatra/base'
 require_relative 'lib/database_connection'
+require_relative 'lib/properties'
+require_relative 'lib/bookings'
 
 DatabaseConnection.setup
 
@@ -14,8 +16,7 @@ class Makersbnb < Sinatra::Base
 
   get '/spaces' do
     @username = session[:username]
-    # @spaces = Spaces.all 
-    @spaces = [{name:'House', description: 'Lovely House', id: '1'}, {name: 'Cottage', description: 'Lovely Cottage', id: '2'}]
+    @spaces = Properties.all 
     erb :'spaces/spaces'
   end
 
@@ -29,9 +30,14 @@ class Makersbnb < Sinatra::Base
   end
 
   get '/spaces/:id' do
-    # space = Space.find_by_id(params[:id])
-    @space = [ { name:'House', description: 'Lovely House', owner: 'Lovely Owner', price: '80' } ]
+    @space = Properties.find_by_id(params[:id])
+    @username = session[:username]
     erb(:'spaces/details')
+  end
+
+  post '/bookings/new' do
+    Bookings.create(params[:property_id], session[:username], '2022-02-02')
+    redirect '/successful'
   end
 
   get '/successful' do

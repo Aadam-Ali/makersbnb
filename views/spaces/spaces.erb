@@ -18,9 +18,9 @@
       Hi <%= @username %>
       <br> 
       <% @spaces.each do |space| %>
-        <a href="/spaces/:<%= space[:id]%>" > <%=space[:name]%> </a>
+        <a href="/spaces/<%= space.id%>" > <%=space.name%> </a>
 
-        <%= space[:description] %>
+        <%= space.description %>
         <br>
       <% end %>
 
