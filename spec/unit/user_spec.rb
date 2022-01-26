@@ -4,8 +4,8 @@ RSpec.describe Users do
 
   describe '.create' do
     it 'adds a new user to the database and returns an users instance' do
-      old_user = DatabaseConnection.query("INSERT INTO users (email, password, name) 
-      VALUES($1, $2, $3) RETURNING *;", ['freddy@example.org', 'freddy123', 'Freddy'])
+      old_user = DatabaseConnection.query('INSERT INTO users (email, password, name) 
+      VALUES($1, $2, $3) RETURNING *;', ['freddy@example.org', 'freddy123', 'Freddy'])
 
       new_user = Users.create('jason@example.org', 'jason123', 'Jason')
 
