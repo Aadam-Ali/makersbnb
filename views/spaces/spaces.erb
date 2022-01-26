@@ -15,7 +15,7 @@
   <body>
 
        
-      Hi <%= @username %>
+      Hi <% @new_user.name == nil ? <%=@existing_user.name%> : <%=@new_user.name%> %>
       <br> 
       <% @spaces.each do |space| %>
         <a href="/spaces/<%= space.id%>" > <%=space.name%> </a>
