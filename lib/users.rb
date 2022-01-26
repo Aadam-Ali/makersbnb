@@ -13,7 +13,7 @@ class Users
     result = DatabaseConnection.query(
       'INSERT INTO users (email, password, name) VALUES($1, $2, $3) RETURNING *;',
       [email, password, name]
-      )
+    )
     wrap_user(result)
   end
 
@@ -21,7 +21,7 @@ class Users
     result = DatabaseConnection.query(
       'SELECT * FROM users WHERE LOWER(email) = $1;',
       [email.downcase]
-      )
+    )
     return nil if result.ntuples.zero?
 
     wrap_user(result)
