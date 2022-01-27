@@ -3,6 +3,7 @@ require 'sinatra/base'
 require_relative 'lib/database_connection'
 require_relative 'lib/properties'
 require_relative 'lib/bookings'
+require_relative 'lib/users'
 
 DatabaseConnection.setup
 
@@ -11,38 +12,40 @@ class Makersbnb < Sinatra::Base
   enable :sessions
   
   get "/" do
-    'Hello'
+    redirect '/register'
+  end
+  
+  get '/register' do
+    erb(:'users/new')
+  end
+
+  post '/register' do
+    session[:user] = Users.create(params[:email], params[:password], params[:username])
+    redirect '/spaces'
+  end
+
+  get '/login' do 
+    erb(:'users/login')
+  end
+
+  post '/login' do 
+    session[:user] = Users.find_by_email(params[:login_email])
+    redirect '/spaces'
   end
 
   get '/spaces' do
-    @new_user
-    # @user replacing @username = session[:username] with @user.name
-    @existing_user
-    # for a user who is loggin in vs signing up 
+    @user = session[:user]
     @spaces = Properties.all 
     erb :'spaces/spaces'
   end
 
-  get '/sessions/new' do
-    erb(:'sessions/new')
-  end
-
-  post '/sessions' do
-    @new_user = Users.create(params[:email], params[:password], params[:username])
-    # session[:username] = params[:username]
-    redirect '/spaces'
-  end
-
-  get '/login/new' do 
-    erb (:'sessions/login')
-  end
-
-  post '/login' do 
-    @existing_user = Users.find_by_email(params[:login_email])
-    redirect '/spaces'
-  end
   get '/spaces/new' do
     erb(:'spaces/new')
+  end
+
+  post '/spaces/new' do
+    Properties.create(params[:name], params[:description], params[:price], session[:user].id, '2022-02-01', '2022-02-28' )
+    redirect '/spaces'
   end
   
   get '/spaces/:id' do
@@ -51,19 +54,11 @@ class Makersbnb < Sinatra::Base
   end
 
   post '/bookings/new' do
-    Bookings.create(params[:property_id], session[:username], '2022-02-02')
+    Bookings.create(params[:property_id], session[:user].id, '2022-02-02')
     redirect '/successful'
   end
 
   get '/successful' do
     erb(:'bookings/success')
   end
-
-
-  post '/spaces/new' do
-    Properties.create(params[:name], params[:description], params[:price], session[:username] )
-    redirect '/spaces'
-  end
-
-
 end
