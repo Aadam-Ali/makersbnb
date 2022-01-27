@@ -16,7 +16,7 @@ feature 'Shows Individual Space' do
     expect(page).to have_current_path("/spaces/#{property.id}")
     expect(page).to have_content('House')
     expect(page).to have_content('Lovely House')
-    expect(page).to have_content(user.id)
+    expect(page).to have_content(user.name)
     expect(page).to have_content('80')
   end
 end

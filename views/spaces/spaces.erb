@@ -11,25 +11,20 @@
     <title>MakersBnB</title>
   </head>
   <body>
-
-
-       
-      Hi <%= @username %>
+      <h3>Hi <%= @username %></h3>
       <br> 
       <% @spaces.each do |space| %>
-        <a href="/spaces/<%= space.id%>" > <%=space.name%> </a>
-
-        <%= space.description %>
+        <a href="/spaces/<%= space.id%>" ><%= space.name %></a>
+        <p><%= space.description %></p>
         <br>
       <% end %>
 
-
-          <form action="spaces/new" method="get"> 
+    <form action="spaces/new" method="get"> 
       <div class="mb-3">
       <button type="submit" class="btn btn-primary">Create new listing</button>
     </form>
 
-            <form action="/users/bookings" method="get"> 
+    <form action="/users/bookings" method="get"> 
       <div class="mb-3">
       <button type="submit" class="btn btn-primary">My Bookings</button>
     </form>

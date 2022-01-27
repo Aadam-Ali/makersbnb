@@ -13,6 +13,7 @@ RSpec.describe Users do
       expect(new_user.name).to eq('Jason')
       expect(new_user.email).to eq('jason@example.org')
     end
+    
     it 'stores the password encrypted into the database' do
       Users.create('freddy@example.org', 'freddy123', 'Freddy')
       persisted_data = DatabaseConnection.query('SELECT password FROM users WHERE email = $1;', ['freddy@example.org'])
@@ -28,12 +29,14 @@ RSpec.describe Users do
 
       expect(unknown_user).to be_nil
     end
+
     it 'returns nil when wrong password ' do
       Users.create('freddy@example.org', 'freddy123', 'Freddy')
       user_pw_incorrect = Users.authenticate('freddy@example.org', 'incorrect')
 
       expect(user_pw_incorrect).to be_nil
     end
+
     it 'returns a user when email and password are correct' do
       user = Users.create('freddy@example.org', 'freddy123', 'Freddy')
       auth_user = Users.authenticate('freddy@example.org', 'freddy123')
@@ -50,6 +53,7 @@ RSpec.describe Users do
       unknown_id = Users.find_by_id('99')
       expect(unknown_id).to be_nil
     end
+
     it 'returns a user instance when found' do
       user = Users.create('freddy@example.org', 'freddy123', 'Freddy')
       find_user = Users.find_by_id(user.id)
