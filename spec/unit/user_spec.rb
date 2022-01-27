@@ -22,7 +22,7 @@ RSpec.describe Users do
     end
   end
 
-  describe '.autheticate' do
+  describe '.authenticate' do
     it 'returns nil when email not in database' do
       unknown_user = Users.authenticate('unknown@example.org', 'freddy123')
 
@@ -42,6 +42,22 @@ RSpec.describe Users do
       expect(auth_user.id).to eq(user.id)
       expect(auth_user.email).to eq(user.email)
       expect(auth_user.name).to eq(user.name)
+    end
+  end
+
+  describe '.find_by_id' do
+    it 'returns nil when id is not found' do
+      unknown_id = Users.find_by_id('99')
+      expect(unknown_id).to be_nil
+    end
+    it 'returns a user instance when found' do
+      user = Users.create('freddy@example.org', 'freddy123', 'Freddy')
+      find_user = Users.find_by_id(user.id)
+
+      expect(find_user).to be_a(Users)
+      expect(find_user.id).to eq(user.id)
+      expect(find_user.email).to eq(user.email)
+      expect(find_user.name).to eq(user.name)
     end
   end
 end
