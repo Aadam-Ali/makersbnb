@@ -30,10 +30,10 @@ class Users
     wrap_user(result)
   end
 
-  private_class_method def self.find_by_email(email)
+  def self.find_by_id(id)
     result = DatabaseConnection.query(
-      'SELECT * FROM users WHERE LOWER(email) = $1;',
-      [email.downcase]
+      'SELECT * FROM users WHERE id = $1;',
+      [id]
     )
     return nil if result.ntuples.zero?
 
