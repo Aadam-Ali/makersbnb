@@ -29,12 +29,13 @@ class Makersbnb < Sinatra::Base
   end
 
   post '/login' do 
-    session[:user] = Users.find_by_email(params[:login_email])
+    session[:user] = Users.authenticate(params[:login_email], params[:login_password])
     redirect '/spaces'
   end
 
   get '/spaces' do
-    @user = session[:user]
+    @username = 'Guest'
+    @username = session[:user].name unless session[:user].nil?
     @spaces = Properties.all 
     erb :'spaces/spaces'
   end
@@ -44,6 +45,7 @@ class Makersbnb < Sinatra::Base
   end
 
   post '/spaces/new' do
+    redirect '/register' if session[:user].nil?
     Properties.create(params[:name], params[:description], params[:price], session[:user].id, '2022-02-01', '2022-02-28' )
     redirect '/spaces'
   end
@@ -54,8 +56,12 @@ class Makersbnb < Sinatra::Base
   end
 
   post '/bookings/new' do
-    Bookings.create(params[:property_id], session[:user].id, '2022-02-02')
-    redirect '/successful'
+    redirect '/register' if session[:user].nil?
+    if Bookings.create(params[:property_id], session[:user].id, '2022-02-02')
+      redirect '/successful'
+    else
+      redirect back
+    end
   end
 
   get '/successful' do
