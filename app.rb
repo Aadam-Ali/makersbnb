@@ -61,4 +61,10 @@ class Makersbnb < Sinatra::Base
   get '/successful' do
     erb(:'bookings/success')
   end
+
+  get '/users/bookings' do
+    @bookings = Bookings.find_by_customer_id( session[:user].id)
+    erb(:'/users/bookings')
+  end
+
 end
