@@ -13,6 +13,8 @@ feature 'Add New Listing' do
     fill_in :name, with: 'A large mansion'
     fill_in :description, with: 'A large mansion in the city'
     fill_in :price, with: 222 
+    fill_in :available_from, with:'2022-01-27'
+    fill_in :available_to, with:'2022-12-27'
 
     click_button('Create new listing')
 

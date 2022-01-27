@@ -20,7 +20,18 @@
           <input type="text" class="form-control" id="description" name="description">
         <label for="property_new" class="form-label"> Price</label>
           <input type="text" class="form-control" id="price" name="price">
-      </div>
+        <br>
+        <label for="start">Available from:</label>
+          <input type="date" id="start" name="available_from"
+               value= <%=Time.now.strftime("%d/%m/%Y")%>
+               min="2022-01-01" max="2022-12-31">
+        <br>
+        <br>
+        <label for="start">Available to:</label>
+          <input type="date" id="end" name="available_to"
+               value= "2022-12-30"
+               min="2022-01-01" max="2022-12-31">
+      </div>  
       <button type="submit" class="btn btn-primary">Create new listing</button>
     </form>
 

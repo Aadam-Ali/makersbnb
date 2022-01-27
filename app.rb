@@ -44,7 +44,7 @@ class Makersbnb < Sinatra::Base
   end
 
   post '/spaces/new' do
-    Properties.create(params[:name], params[:description], params[:price], session[:user].id, '2022-02-01', '2022-02-28' )
+    Properties.create(params[:name], params[:description], params[:price], session[:user].id, params[:available_from], params[:available_to])
     redirect '/spaces'
   end
   

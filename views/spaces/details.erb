@@ -13,12 +13,16 @@
   <body>
 
 
-    <%= @space.name %>:   
+    <%=@space.name %>:   
     <%= @space.description %>
     <br>
-    <%= @space.price %>
+    Price(£):<%= @space.price %>
     <br>
-    <%= @space.owner_id %>
+    Owner:<%= @space.owner_id %>
+    <br>
+    Available from: <%= @space.available_from %>
+    <br>
+    Available to: <%= @space.available_to %>
 
     <form action="/bookings/new" method="post"> 
       <input type="hidden" name="property_id" value=<%= @space.id %>>
