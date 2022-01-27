@@ -1,5 +1,5 @@
-feature 'Shows Individual Space' do
-  scenario 'View the details of an individual space' do
+feature 'Booking' do
+  scenario 'User logs in and makes a booking' do
     user = Users.create('j@gmail.com', 'secrets', 'Jasmine')
     property = Properties.create('House', 'Lovely House', 80, user.id, '2022-02-01', '2022-02-28')
     Properties.create('Cottage', 'Lovely Cottage', 50, user.id, '2022-02-01', '2022-02-28')
@@ -14,9 +14,10 @@ feature 'Shows Individual Space' do
     click_on 'House'
 
     expect(page).to have_current_path("/spaces/#{property.id}")
-    expect(page).to have_content('House')
-    expect(page).to have_content('Lovely House')
-    expect(page).to have_content(user.id)
-    expect(page).to have_content('80')
+
+    click_button('Book')
+
+    expect(page).to have_current_path('/successful')
+    expect(page).to have_content('Your booking was successful')
   end
 end
