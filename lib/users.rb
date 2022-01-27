@@ -3,12 +3,11 @@ require 'bcrypt'
 class Users
   include BCrypt
 
-  attr_reader :id, :email, :name, :password
+  attr_reader :id, :email, :name
 
-  def initialize(id, email, password, name)
+  def initialize(id, email, name)
     @id = id
     @email = email
-    @password = password
     @name = name
   end
 
@@ -21,14 +20,17 @@ class Users
   end
 
   def self.authenticate(email, password)
-    user = find_by_email(email)
-    return nil if user.nil?
-    return nil unless Password.new(user.password) == password
+    result = DatabaseConnection.query(
+      'SELECT * FROM users WHERE LOWER(email) = $1;',
+      [email.downcase]
+    )
+    return nil if result.ntuples.zero?
+    return nil unless Password.new(result[0]['password']) == password
 
-    user
+    wrap_user(result)
   end
 
-  def self.find_by_email(email)
+  private_class_method def self.find_by_email(email)
     result = DatabaseConnection.query(
       'SELECT * FROM users WHERE LOWER(email) = $1;',
       [email.downcase]
@@ -39,6 +41,6 @@ class Users
   end
 
   private_class_method def self.wrap_user(result)
-    Users.new(result[0]['id'], result[0]['email'], result[0]['password'], result[0]['name'])
+    Users.new(result[0]['id'], result[0]['email'], result[0]['name'])
   end
 end
