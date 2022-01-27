@@ -3,7 +3,7 @@ require 'bcrypt'
 class Users
   include BCrypt
 
-  attr_reader :id, :email, :name
+  attr_reader :id, :email, :name, :password
 
   def initialize(id, email, password, name)
     @id = id
@@ -18,6 +18,14 @@ class Users
       [email, Password.create(password), name]
     )
     wrap_user(result)
+  end
+
+  def self.authenticate(email, password)
+    user = find_by_email(email)
+    return nil if user.nil?
+    return nil unless Password.new(user.password) == password
+
+    user
   end
 
   def self.find_by_email(email)

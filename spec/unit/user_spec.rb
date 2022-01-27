@@ -22,6 +22,30 @@ RSpec.describe Users do
     end
   end
 
+  describe '.autheticate' do
+    it 'returns nil when email not in database' do
+      unknown_user = Users.authenticate('unknown@example.org', 'freddy123')
+      
+      expect(unknown_user).to be_nil
+    end
+    it 'returns nil when wrong password ' do
+      Users.create('freddy@example.org', 'freddy123', 'Freddy')
+      user_pw_incorrect = Users.authenticate('freddy@example.org', 'incorrect')
+      
+      expect(user_pw_incorrect).to be_nil
+    end
+    it 'returns a user when email and password are correct' do
+      user = Users.create('freddy@example.org', 'freddy123', 'Freddy')
+      auth_user = Users.authenticate('freddy@example.org', 'freddy123')
+
+      expect(auth_user).to be_a(Users)
+      expect(auth_user.id).to eq(user.id)
+      expect(auth_user.email).to eq(user.email)
+      expect(auth_user.name).to eq(user.name)
+    end
+  end
+
+
   describe '.find_by_email' do
     context 'when user not in database' do
       it 'returns nil' do
