@@ -16,4 +16,4 @@ gem "pg", "~> 1.3"
 
 gem "webrick", "~> 1.7"
 
-gem 'bcrypt'
+gem "bcrypt", "~> 3.1"
