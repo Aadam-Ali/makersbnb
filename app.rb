@@ -46,7 +46,7 @@ class Makersbnb < Sinatra::Base
 
   post '/spaces/new' do
     redirect '/register' if session[:user].nil?
-    Properties.create(params[:name], params[:description], params[:price], session[:user].id, '2022-02-01', '2022-02-28' )
+    Properties.create(params[:name], params[:description], params[:price], session[:user].id, params[:available_from], params[:available_to])
     redirect '/spaces'
   end
   
@@ -67,4 +67,10 @@ class Makersbnb < Sinatra::Base
   get '/successful' do
     erb(:'bookings/success')
   end
+
+  get '/users/bookings' do
+    @bookings = Bookings.find_by_customer_id( session[:user].id)
+    erb(:'/users/bookings')
+  end
+
 end
