@@ -12,13 +12,25 @@
     <title>MakersBnB</title>
   </head>
   <body>
-
-      <h3><%= @user.name %>, Active Booking Requests:</h3>
+    <nav class="nav nav-pills flex-column flex-sm-row">
+      <a class="flex-sm-fill text-sm-center nav-link" aria-current="page" href="/spaces">Spaces</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="/users/bookings">Bookings</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="/users/requests">Requests</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="/login">Logout</a>
+    </nav>
+    <br>
+      <h3 class="text-center"><%= @user.name %>, these are your current requests.</h3>
       <br> 
-      <div>
+      <div class="d-flex justify-content-start flex-wrap" style="width: 80%; margin: auto;">
       <% @bookings.each do |booking| %>
-        <a href="/spaces/<%= booking.property_id %>" > <%= @properties[@bookings.index(booking)].name %> </a> - <%= booking.booking_date %>  <a href="/users/requests/<%=booking.id%>"> View Request</a>
-        <br>
+      <div class="card mb-2" style="width: 18rem; margin: 2rem;">
+        <div class="card-body">
+          <h5 class="card-title">Request for '<%= @properties[@bookings.index(booking)].name %>'</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Date: <%= booking.booking_date %></h6>
+          <a href="/users/requests/<%= booking.id %>" class="btn btn-primary mb-2">View</a>
+          <br>
+        </div>
+      </div>
       <% end %>
       </div>
     
