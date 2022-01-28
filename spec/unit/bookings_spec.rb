@@ -42,6 +42,24 @@ describe Bookings do
     end
   end
 
+  describe '.find_by_id' do
+    it 'finds a booking by id' do
+      owner = DatabaseConnection.query("INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *;", ['test@test.com', 'password', 'Aadam'])
+      customer = DatabaseConnection.query("INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *;", ['alex@test.com', 'password', 'Alex'])
+
+      property = add_row_to_database('Small apartment', 'A small appartment in the city', 150, owner.first['id'], '2022-02-01', '2022-02-28')
+
+      booking = Bookings.create(property.first['id'], customer.first['id'], '2022-02-02')
+
+      found_booking = Bookings.find_by_id(booking.id)
+
+      expect(found_booking.id).to eq booking.id
+      expect(found_booking.property_id).to eq booking.property_id
+      expect(found_booking.customer_id).to eq booking.customer_id
+      expect(found_booking.booking_date).to eq booking.booking_date
+    end
+  end
+
   describe '.find_by_customer_id' do
     it 'filters bookings by customer id' do
       owner = DatabaseConnection.query("INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *;", ['test@test.com', 'password', 'Aadam'])
