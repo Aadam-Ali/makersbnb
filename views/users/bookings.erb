@@ -11,12 +11,29 @@
     <title>MakersBnB</title>
   </head>
   <body>
-      <h3>Hi <%= @user.name %>, this is your current bookings.</h3>
+  <nav class="nav nav-pills flex-column flex-sm-row">
+    <a class="flex-sm-fill text-sm-center nav-link" aria-current="page" href="/spaces">Spaces</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="/users/bookings">Bookings</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="/users/requests">Requests</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="/login">Logout</a>
+  </nav>
+  <br>
+      <h3>Hi <%= @user.name %>, these are your current bookings.</h3>
       <br> 
       <% @bookings.each do |booking| %>
         <a href="/spaces/<%= booking.property_id %>" > <%= @properties[@bookings.index(booking)].name %> </a> - <%= booking.booking_date %>
         <br>
       <% end %>
+      
+      <div class="card" style="width: 18rem;">
+      <div class="card-body">
+      <% @spaces.each do |space| %>
+       <h5 class="card-title"> <%= space.name %> </h5>
+      <h6 class="card-subtitle mb-2 text-muted"><%= space.description %> </h6>
+      <a href="/spaces/<%= space.id%>" class="btn btn-primary">View</a>
+      <% end %>
+      </div>
+      </div>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

@@ -84,11 +84,17 @@ class Makersbnb < Sinatra::Base
     redirect back if @property.owner_id != session[:user].id
     erb(:'users/booking_response')
   end
-
-  post '/users/requests' do
-    # Bookings.accept(session[:booking].id) if params[:response] == 'accept'
-    # Bookings.reject(session[:booking].id) if params[:response] == 'reject'
-    redirect '/users/requests'
+  
+  get '/users/requests' do
+    @bookings = Bookings.find_incoming_bookings( session[:user].id)
+    @properties = @bookings.map { |booking| Properties.find_by_id(booking.property_id)}
+    @user = session[:user]
+    erb(:'/users/requests')
   end
 
+  post '/users/requests' do
+    Bookings.accept(session[:booking].id) if params[:response] == 'accept'
+    Bookings.reject(session[:booking].id) if params[:response] == 'reject'
+    redirect '/users/requests'
+  end
 end
