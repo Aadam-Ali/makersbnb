@@ -20,14 +20,10 @@
   <br>
       <h3>Hi <%= @user.name %>, these are your current bookings.</h3>
       <br> 
-      <% @bookings.each do |booking| %>
-        <a href="/spaces/<%= booking.property_id %>" > <%= @properties[@bookings.index(booking)].name %> </a> - <%= booking.booking_date %>
-        <br>
-      <% end %>
-      
+  
       <div class="card" style="width: 18rem;">
       <div class="card-body">
-      <% @spaces.each do |space| %>
+      <% @properties.each do |space| %>
        <h5 class="card-title"> <%= space.name %> </h5>
       <h6 class="card-subtitle mb-2 text-muted"><%= space.description %> </h6>
       <a href="/spaces/<%= space.id%>" class="btn btn-primary">View</a>

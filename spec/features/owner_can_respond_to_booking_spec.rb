@@ -11,7 +11,7 @@ feature 'accept or reject a booking' do
     fill_in :login_password, with: 'jason123'
     click_button('Login')
 
-    visit("/incoming_bookings/#{@booking_request.id}")
+    visit("/users/requests/#{@booking_request.id}")
     ### path can be updated when requests page available
     ## visit('/useres/requests')
     ## click_link(:href => "/incoming_bookings/#{@booking_request.id}")
@@ -28,12 +28,12 @@ feature 'accept or reject a booking' do
   scenario 'when accepting, user is redirected to requests and request should be gone' do
     click_button('Accept')
     expect(page).to have_current_path('/users/requests')
-    expect(page).not_to have_link(href: "/incoming_bookings/#{@booking_request.id}")
+    expect(page).not_to have_link(href: "/users/requests/#{@booking_request.id}")
   end
 
   scenario 'when denying, user is redirected to requests and request should be gone' do
     click_button('Reject')
     expect(page).to have_current_path('/users/requests')
-    expect(page).not_to have_link(href: "/incoming_bookings/#{@booking_request.id}")
+    expect(page).not_to have_link(href: "/users/requests/#{@booking_request.id}")
   end
 end

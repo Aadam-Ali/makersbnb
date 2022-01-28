@@ -11,7 +11,7 @@ feature 'Shows Individual Space' do
 
     click_button('Login')
 
-    click_on 'House'
+    click_link(href: "/spaces/#{property.id}")
 
     expect(page).to have_current_path("/spaces/#{property.id}")
     expect(page).to have_content('House')

@@ -13,7 +13,7 @@ feature 'Find bookings by customer ID' do
     fill_in :login_password, with: 'secrets'
 
     click_button('Login')
-    click_button('My Bookings')
+    click_link('Bookings')
 
     expect(page).to have_content('House')
   end
