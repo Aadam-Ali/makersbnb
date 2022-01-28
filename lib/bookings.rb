@@ -10,10 +10,15 @@ class Bookings
     @status = status
   end
 
-  def self.create(property_id, customer_name, booking_date)
+  def self.create(property_id, customer_id, booking_date)
     return false unless available?(property_id, booking_date)
     result = DatabaseConnection.query('INSERT INTO bookings (property_id, customer_id, booking_date) VALUES ($1, $2, $3) RETURNING *;',
-    [property_id, customer_name, booking_date])
+    [property_id, customer_id, booking_date])
+    Bookings.new(result[0]['id'], result[0]['property_id'], result[0]['customer_id'], result[0]['booking_date'], result[0]['status'])
+  end
+
+  def self.find_by_id(booking_id)
+    result = DatabaseConnection.query("SELECT * FROM bookings WHERE id = $1", [booking_id])
     Bookings.new(result[0]['id'], result[0]['property_id'], result[0]['customer_id'], result[0]['booking_date'], result[0]['status'])
   end
 
@@ -23,10 +28,10 @@ class Bookings
   end
 
   def self.find_incoming_bookings(customer_id)
-    results = DatabaseConnection.query('SELECT b.id, b.property_id, b.customer_id, b.booking_date, b.status
+    results = DatabaseConnection.query("SELECT b.id, b.property_id, b.customer_id, b.booking_date, b.status
               FROM bookings as b 
               JOIN properties as p ON b.property_id = p.id
-              WHERE owner_id = $1;', [customer_id])
+              WHERE owner_id = $1 AND status = 'pending';", [customer_id])
     results.map { |booking| Bookings.new(booking['id'], booking['property_id'], booking['customer_id'], booking['booking_date'], booking['status'])}
   end
 
