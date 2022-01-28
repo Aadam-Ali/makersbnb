@@ -28,10 +28,10 @@ class Bookings
   end
 
   def self.find_incoming_bookings(customer_id)
-    results = DatabaseConnection.query('SELECT b.id, b.property_id, b.customer_id, b.booking_date, b.status
+    results = DatabaseConnection.query("SELECT b.id, b.property_id, b.customer_id, b.booking_date, b.status
               FROM bookings as b 
               JOIN properties as p ON b.property_id = p.id
-              WHERE owner_id = $1;', [customer_id])
+              WHERE owner_id = $1 AND status = 'pending';", [customer_id])
     results.map { |booking| Bookings.new(booking['id'], booking['property_id'], booking['customer_id'], booking['booking_date'], booking['status'])}
   end
 
