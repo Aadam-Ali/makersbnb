@@ -30,6 +30,12 @@ class Bookings
     results.map { |booking| Bookings.new(booking['id'], booking['property_id'], booking['customer_id'], booking['booking_date'], booking['status'])}
   end
 
+  ### Just as a helper to be deleted
+  def self.find_by_id(id)
+    result = DatabaseConnection.query('SELECT * FROM bookings WHERE id = $1;', [id])
+    Bookings.new(result.first['id'], result.first['property_id'], result.first['customer_id'], result.first['booking_date'], result.first['status'])
+  end
+
   private
 
   def self.get_dates(property_id)

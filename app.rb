@@ -75,4 +75,25 @@ class Makersbnb < Sinatra::Base
     @user = session[:user]
     erb(:'/users/bookings')
   end
+
+  get '/incoming_bookings/:id' do
+    @booking = Bookings.find_by_id(params[:id])
+    session[:booking] = @booking
+    @property = Properties.find_by_id(@booking.property_id)
+    @requester = Users.find_by_id(@booking.customer_id)
+    redirect back if @property.owner_id != session[:user].id
+    erb(:'users/booking_response')
+  end
+
+  post '/incoming_bookings' do
+    # Bookings.confirm(session[:booking].id) if params[:response] == 'confirm'
+    # Bookings.deny(session[:booking].id) if params[:response] == 'deny'
+    redirect '/users/requests'
+  end
+
+  ########## to be deleted
+  get '/users/requests' do
+    'I am just empty right now'
+  end
+
 end
