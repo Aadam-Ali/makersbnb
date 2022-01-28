@@ -24,7 +24,7 @@
       Date: <%= @booking.booking_date %>
     </p>
 
-    <form action="/incoming_bookings" method="post"> 
+    <form action="/users/requests" method="post"> 
       <button type="submit" name="response" value="accept" class="btn btn-primary">Accept</button>
       <button type="submit" name="response" value="reject" class="btn btn-secondary">Reject</button>
     </form>

@@ -85,7 +85,7 @@ class Makersbnb < Sinatra::Base
     erb(:'users/booking_response')
   end
 
-  post '/incoming_bookings' do
+  post '/users/requests' do
     # Bookings.accept(session[:booking].id) if params[:response] == 'accept'
     # Bookings.reject(session[:booking].id) if params[:response] == 'reject'
     redirect '/users/requests'
