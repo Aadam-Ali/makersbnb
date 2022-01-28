@@ -91,8 +91,4 @@ class Makersbnb < Sinatra::Base
     redirect '/users/requests'
   end
 
-  ########## to be deleted
-  get '/users/requests' do
-    'I am just empty right now'
-  end
 end
