@@ -76,6 +76,15 @@ class Makersbnb < Sinatra::Base
     erb(:'/users/bookings')
   end
 
+  get '/incoming_bookings/:id' do
+    @booking = Bookings.find_by_id(params[:id])
+    session[:booking] = @booking
+    @property = Properties.find_by_id(@booking.property_id)
+    @requester = Users.find_by_id(@booking.customer_id)
+    redirect back if @property.owner_id != session[:user].id
+    erb(:'users/booking_response')
+  end
+  
   get '/users/requests' do
     @bookings = Bookings.find_incoming_bookings( session[:user].id)
     @properties = @bookings.map { |booking| Properties.find_by_id(booking.property_id)}
@@ -83,4 +92,9 @@ class Makersbnb < Sinatra::Base
     erb(:'/users/requests')
   end
 
+  post '/users/requests' do
+    Bookings.accept(session[:booking].id) if params[:response] == 'accept'
+    Bookings.reject(session[:booking].id) if params[:response] == 'reject'
+    redirect '/users/requests'
+  end
 end
