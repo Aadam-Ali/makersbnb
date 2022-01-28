@@ -75,4 +75,12 @@ class Makersbnb < Sinatra::Base
     @user = session[:user]
     erb(:'/users/bookings')
   end
+
+  get '/users/requests' do
+    @bookings = Bookings.find_incoming_bookings( session[:user].id)
+    @properties = @bookings.map { |booking| Properties.find_by_id(booking.property_id)}
+    @user = session[:user]
+    erb(:'/users/requests')
+  end
+
 end
