@@ -12,6 +12,9 @@ feature 'accept or reject a booking' do
     click_button('Login')
 
     visit("/incoming_bookings/#{@booking_request.id}")
+    ### path can be updated when requests page available
+    ## visit('/useres/requests')
+    ## click_link(:href => "/incoming_bookings/#{@booking_request.id}")
   end
 
   scenario 'content to be shown' do

@@ -95,5 +95,4 @@ class Makersbnb < Sinatra::Base
   get '/users/requests' do
     'I am just empty right now'
   end
-
 end
